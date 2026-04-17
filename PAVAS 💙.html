@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Pavas 💙</title>
+
+<style>
+body {
+  background: #0b141a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* Teléfono */
+.phone {
+  width: 360px;
+  height: 640px;
+  background: #efeae2;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  background: #075e54;
+  color: white;
+  padding: 10px;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.status {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Chat */
+.chat {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mensajes */
+.message {
+  background: white;
+  max-width: 75%;
+  padding: 8px 10px;
+  margin: 4px 0;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+/* Hora */
+.time {
+  font-size: 10px;
+  opacity: 0.6;
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* Imagen */
+img {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+/* Escribiendo */
+.typing {
+  font-size: 12px;
+  color: gray;
+  font-style: italic;
+  margin: 5px 0;
+}
+
+/* Botón */
+button {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #25d366;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+  <div class="header">
+    <div class="name">Pavas 💙</div>
+    <div class="status">En línea</div>
+  </div>
+  <div class="chat" id="chat"></div>
+</div>
+
+<script>
+const chat = document.getElementById("chat");
+
+const flow = [
+  {text: "Hola…"},
+  {text: "No sabía si escribirte esto…"},
+  {text: "Llevo rato pensándolo"},
+  {text: "Y es que hay cosas que uno no debería guardarse"},
+  {text: "Desde hace tiempo quería decirte algo"},
+  {text: "Pero no encontraba el momento exacto"},
+  {text: "Y hoy dije… ya, sin mente"},
+  {text: "Hay algo en ti que me llama mucho la atención"},
+  {text: "Y no… no es solo lo bonita que eres"},
+  {text: "Porque sí, eres hermosa"},
+  {text: "Pero no es solo eso"},
+  {text: "Es tu forma de ser"},
+  {text: "Tu energía"},
+  {text: "Tu seguridad"},
+  {text: "La forma en la que hablas"},
+  {text: "La forma en la que te expresas"},
+  {text: "No sé… tienes algo diferente"},
+  {text: "Y eso no lo tiene cualquiera"},
+  {text: "De verdad admiro mucho la mujer que eres"},
+  {text: "Y no te lo digo por decirlo"},
+  {text: "Lo digo porque se nota"},
+  {text: "Se nota que eres fuerte"},
+  {text: "Se nota que sabes lo que vales"},
+  {text: "Y eso… uff"},
+  {text: "Eso me parece brutal"},
+  {text: "Mira esto…", image: "https://i.ibb.co/8njjk4k5/Whats-App-Image-2026-04-17-at-7-57-53-AM.jpg"},
+  {text: "Literal así te veo"},
+  {text: "Y esto también…", image: "https://i.ibb.co/7JWzXpRS/Whats-App-Image-2026-04-17-at-7-57-53-AM-1.jpg"},
+  {text: "No es solo una cara bonita"},
+  {text: "Eres una mujer que impone"},
+  {text: "Que transmite"},
+  {text: "Y eso a mí… me encanta"},
+  {text: "No te imaginas cuánto"},
+  {text: "Y siendo sincero…"},
+  {text: "También me han dado muchas ganas de verte"},
+  {text: "De compartir contigo en persona"},
+  {text: "De poder abrazarte"},
+  {text: "Porque siento que eres de esas personas que valen la pena sentir cerca"},
+  {text: "Sé que no eres mucho de demostrar cariño…"},
+  {text: "O de ese tipo de cosas"},
+  {text: "Pero a mí sí me nace darte eso"},
+  {text: "Darte cariño, atención…"},
+  {text: "Y hacerte sentir especial"},
+  {text: "Me gustas bastante"},
+  {text: "Pero más allá de eso"},
+  {text: "Me encantas como persona"},
+  {text: "Y quería que lo supieras"},
+  {text: "Sin presión… sin nada raro"},
+  {text: "Solo porque lo sentía"},
+  {text: "Y no quería quedarme con eso guardado"},
+  {text: "Así te veo yo 💙"},
+  {text: "Y sinceramente… me encantas muchísimo"}
+];
+
+let i = 0;
+
+function scrollToBottom() {
+  chat.scrollTo({
+    top: chat.scrollHeight,
+    behavior: "smooth"
+  });
+}
+
+function calculateTypingTime(text) {
+  let base = text.length * 50;
+  let random = Math.random() * 800;
+  return Math.min(Math.max(base + random, 1200), 4000);
+}
+
+function thinkingPause(text) {
+  if (text.includes("...") || text.length > 40) {
+    return 800 + Math.random() * 800;
+  }
+  return 300 + Math.random() * 400;
+}
+
+function createMessage(item) {
+  let div = document.createElement("div");
+  div.className = "message";
+
+  div.innerHTML = `
+    ${item.text}
+    ${item.image ? `<img src="${item.image}" />` : ""}
+    <div class="time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+  `;
+
+  chat.appendChild(div);
+  scrollToBottom();
+}
+
+function showTyping(text, callback) {
+  let typing = document.createElement("div");
+  typing.className = "typing";
+  typing.textContent = "Alí está escribiendo...";
+  chat.appendChild(typing);
+  scrollToBottom();
+
+  let time = calculateTypingTime(text);
+
+  setTimeout(() => {
+    typing.remove();
+    callback();
+  }, time);
+}
+
+function runChat() {
+  if (i < flow.length) {
+    let item = flow[i];
+
+    setTimeout(() => {
+      showTyping(item.text, () => {
+        createMessage(item);
+        i++;
+
+        let extraDelay = item.image ? 1200 : 600;
+        setTimeout(runChat, extraDelay);
+      });
+    }, thinkingPause(item.text));
+  }
+}
+
+runChat();
+</script>
+
+</body>
+</html>
